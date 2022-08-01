@@ -1,2 +1,3 @@
-# lolet
-A tools for LOLE
+# LOL E-Sport Tools
+
+A tools for LOL-E
