@@ -2,43 +2,39 @@ package main
 
 import (
 	"fmt"
-	"github.com/gocarina/gocsv"
-	"os"
-)
 
-type Player struct {
-	Name   string `csv:"name"`
-	Lane   string `csv:"lane"`
-	Region string `csv:"region"`
-	Team   string `csv:"team"`
-	Tag1   string `csv:"tag1"`
-	Tag2   string `csv:"tag2"`
-	Level  string `csv:"level"`
-}
+	"github.com/hkail/lolet/internal/player"
+)
 
 func main() {
 	fmt.Println("hello world")
-	players, err := loadPlayers()
-	if err != nil {
-		panic(err)
-	}
 
-	for _, player := range players {
-		fmt.Printf("%#v\n", player)
-	}
-}
+	graph := player.GetGraph()
+	players := graph.GetPlayersByTags([]player.GetPlayersByTagsArg{
+		{
+			TagType: 1,
+			TagKeys: []int{1},
+		},
+		{
+			TagType: 2,
+			TagKeys: []int{1, 2},
+		},
+		{
+			TagType: 3,
+			TagKeys: []int{1, 2, 3, 4},
+		},
+		{
+			TagType: 4,
+			TagKeys: []int{1, 2},
+		},
+		{
+			TagType: 5,
+			TagKeys: []int{1},
+		},
+	})
 
-func loadPlayers() ([]Player, error) {
-	playersFile, err := os.OpenFile("data/players.csv", os.O_RDWR|os.O_CREATE, os.ModePerm)
-	if err != nil {
-		return nil, err
+	for _, p := range players {
+		fmt.Printf("%#v\n", p)
 	}
-	defer playersFile.Close()
-
-	players := make([]Player, 0)
-	if err = gocsv.UnmarshalFile(playersFile, &players); err != nil {
-		return nil, err
-	}
-
-	return players, nil
+	fmt.Println(len(players))
 }
