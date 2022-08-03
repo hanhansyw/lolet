@@ -23,9 +23,9 @@ type Graph struct {
 }
 
 type Tag struct {
-	Type  TagType
-	Key   int
-	Value string
+	Type  TagType `json:"type"`
+	Key   int     `json:"key"`
+	Value string  `json:"value"`
 }
 
 func (t Tag) index() tagIndex {
@@ -35,6 +35,11 @@ func (t Tag) index() tagIndex {
 type GetPlayersByTagsArg struct {
 	TagType TagType
 	TagKeys []int
+}
+
+type ComputeResult struct {
+	Tags    []Tag    `json:"tags"`
+	Players []Player `json:"players"`
 }
 
 func init() {
@@ -105,7 +110,7 @@ func loadPlayerGraph(csvFilePath string) (*Graph, error) {
 	}, nil
 }
 
-func (g *Graph) GetPlayersByTags(args []GetPlayersByTagsArg) []Player {
+func (g *Graph) ComputePlayersByTags(args []GetPlayersByTagsArg) []ComputeResult {
 	tags := make([]Tag, 0)
 	for _, arg := range args {
 		for _, tagKey := range arg.TagKeys {
@@ -118,8 +123,7 @@ func (g *Graph) GetPlayersByTags(args []GetPlayersByTagsArg) []Player {
 		}
 	}
 
-	playerIDSet := make(map[int]struct{})
-	players := make([]Player, 0)
+	computeResults := make([]ComputeResult, 0)
 	var f func(i int, currentTags []Tag)
 	f = func(i int, currentTags []Tag) {
 		if len(currentTags) > 1 {
@@ -131,13 +135,11 @@ func (g *Graph) GetPlayersByTags(args []GetPlayersByTagsArg) []Player {
 
 		if len(currentTags) == defaultTagGroupSize {
 			targetPlayers := g.getPlayersByTags(currentTags)
-			for _, player := range targetPlayers {
-				if _, ok := playerIDSet[player.id]; ok {
-					continue
-				}
-
-				playerIDSet[player.id] = struct{}{}
-				players = append(players, player)
+			if len(targetPlayers) > 0 {
+				computeResults = append(computeResults, ComputeResult{
+					Tags:    currentTags,
+					Players: targetPlayers,
+				})
 			}
 
 			return
@@ -149,7 +151,11 @@ func (g *Graph) GetPlayersByTags(args []GetPlayersByTagsArg) []Player {
 	}
 	f(0, nil)
 
-	return players
+	return computeResults
+}
+
+func (g *Graph) GetTagsMapper() map[TagType][]Tag {
+	return g.tagTypeToTagsMapper
 }
 
 func (g *Graph) getPlayersByTags(tags []Tag) []Player {

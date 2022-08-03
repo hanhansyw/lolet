@@ -1,13 +1,13 @@
 package player
 
 type Player struct {
-	Name          string `csv:"name"`
-	Lane          string `csv:"lane"`
-	Region        string `csv:"region"`
-	Team          string `csv:"team"`
-	FirstFeature  string `csv:"first_feature"`
-	SecondFeature string `csv:"second_feature"`
-	Level         string `csv:"level"`
+	Name          string `csv:"name" json:"name"`
+	Lane          string `csv:"lane" json:"lane"`
+	Region        string `csv:"region" json:"region"`
+	Team          string `csv:"team" json:"team"`
+	FirstFeature  string `csv:"first_feature" json:"first_feature"`
+	SecondFeature string `csv:"second_feature" json:"second_feature"`
+	Level         string `csv:"level" json:"level"`
 
 	id         int
 	tagIndexes map[tagIndex]struct{}
