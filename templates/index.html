@@ -1,171 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Title</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <style>
+        .body {
+            width: 100vw;
+        }
+
+        .container {
+            /* width: 800px; */
+            margin: 0 auto;
+        }
+
+        .lol-title {
+            margin: 0 auto;
+        }
+
+        .demo-ruleForm {}
+    </style>
 </head>
+
 <body>
-<div id="app">
-    <h2>电竞经理选手招聘助手 v1.0.0</h2>
+    <div id="app">
+        <div class="container">
+            <h2 class="lol-title">电竞经理选手招聘助手 v1.0.0</h2>
 
-    <form style="padding: 20px" @submit.prevent="doSubmit">
-        <div class="form-group">
-            <label>位置</label><br>
-            <div class="checkbox" v-for="item in tags.lanes" :key="item.key">
-                <label>
-                    <input type="checkbox" v-model.trim="form.lanes" v-bind:value="item.key">
-                    {{ item.value }}
-                </label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>区域</label><br>
-            <div class="checkbox" v-for="item in tags.regions" :key="item.key">
-                <label>
-                    <input type="checkbox" v-model.trim="form.regions" v-bind:value="item.key">
-                    {{ item.value }}
-                </label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>战队</label><br>
-            <div class="checkbox" v-for="item in tags.teams" :key="item.key">
-                <label>
-                    <input type="checkbox" v-model.trim="form.teams" v-bind:value="item.key">
-                    {{ item.value }}
-                </label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>特征 A</label><br>
-            <div class="checkbox" v-for="item in tags.first_features" :key="item.key">
-                <label>
-                    <input type="checkbox" v-model.trim="form.first_features" v-bind:value="item.key">
-                    {{ item.value }}
-                </label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>特征 B</label><br>
-            <div class="checkbox" v-for="item in tags.second_features" :key="item.key">
-                <label>
-                    <input type="checkbox" v-model.trim="form.second_features" v-bind:value="item.key">
-                    {{ item.value }}
-                </label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>品质</label><br>
-            <div class="checkbox" v-for="item in tags.levels" :key="item.key">
-                <label>
-                    <input type="checkbox" v-model.trim="form.levels" v-bind:value="item.key">
-                    {{ item.value }}
-                </label>
-            </div>
-        </div>
-
-        <button type="submit" class="btn btn-success">计算</button>
-    </form>
-
-    <h3>计算结果</h3>
-    <div>
-        <div class="row" v-for="result in compute_results">
-            <div class="col-md-12">
-                <span>标签: </span>
-                <span v-for="tag in result.tags">
-                    {{ tag.value }}
-                </span>
-            </div>
-            <div class="col-md-12">
-                <span>选手: </span>
-                <span v-for="player in result.players">
-                    {{ player.name }}
-                </span>
-            </div>
+            <el-form :model="form" ref="ruleForm" label-position="top" class="demo-ruleForm">
+                <el-form-item label="位置" prop="lanes">
+                    <el-checkbox-group v-model="form.lanes">
+                        <el-checkbox-button v-for="item in tags.lanes" :key="item.key" :label="item.key">{{item.value}}
+                        </el-checkbox-button>
+                    </el-checkbox-group>
+                </el-form-item>
+                <el-form-item label="区域" prop="regions">
+                    <el-checkbox-group v-model="form.regions">
+                        <el-checkbox-button v-for="item in tags.regions" :key="item.key" :label="item.key">
+                            {{item.value}}
+                        </el-checkbox-button>
+                    </el-checkbox-group>
+                </el-form-item>
+                <el-form-item label="战队" prop="teams">
+                    <el-checkbox-group v-model="form.teams">
+                        <el-checkbox-button v-for="item in tags.teams" :key="item.key" :label="item.key">{{item.value}}
+                        </el-checkbox-button>
+                    </el-checkbox-group>
+                </el-form-item>
+                <el-form-item label="特征A" prop="first_features">
+                    <el-checkbox-group v-model="form.first_features">
+                        <el-checkbox-button v-for="item in tags.first_features" :key="item.key" :label="item.key">
+                            {{item.value}}</el-checkbox-button>
+                    </el-checkbox-group>
+                </el-form-item>
+                <el-form-item label="特征B" prop="second_features">
+                    <el-checkbox-group v-model="form.second_features">
+                        <el-checkbox-button v-for="item in tags.second_features" :key="item.key" :label="item.key">
+                            {{item.value}}</el-checkbox-button>
+                    </el-checkbox-group>
+                </el-form-item>
+                <el-form-item label="品质" prop="levels">
+                    <el-checkbox-group v-model="form.levels">
+                        <el-checkbox-button v-for="item in tags.levels" :key="item.key" :label="item.key">{{item.value}}
+                        </el-checkbox-button>
+                    </el-checkbox-group>
+                </el-form-item>
+                <el-form-item size="large">
+                    <el-button type="primary" @click="doSubmit('ruleForm')">计算</el-button>
+                </el-form-item>
+            </el-form>
+            <el-dialog title="计算结果" :visible.sync="dialogTableVisible">
+                <el-table :data="gridData">
+                  <el-table-column property="tags" label="标签" width="300"></el-table-column>
+                  <el-table-column property="player" label="选手"></el-table-column>
+                </el-table>
+              </el-dialog>
         </div>
     </div>
-</div>
-<script>
-    const TAG_TYPE_LANE = 1
-    const TAG_TYPE_REGION = 2
-    const TAG_TYPE_TEAM = 3
-    const TAG_TYPE_FIRST_FEATURE = 4
-    const TAG_TYPE_SECOND_FEATURE = 5
-    const TAG_TYPE_LEVEL = 6
+    <script>
+        const TAG_TYPE_LANE = 1
+        const TAG_TYPE_REGION = 2
+        const TAG_TYPE_TEAM = 3
+        const TAG_TYPE_FIRST_FEATURE = 4
+        const TAG_TYPE_SECOND_FEATURE = 5
+        const TAG_TYPE_LEVEL = 6
 
-    var app = new Vue({
-        el: '#app',
-        data: {
-            message: 'Hello Vue!',
-            tags: {
-                lanes: [],
-                regions: [],
-                teams: [],
-                first_features: [],
-                second_features: [],
-                levels: []
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!',
+                radio1: "",
+                tags: {
+                    lanes: [],
+                    regions: [],
+                    teams: [],
+                    first_features: [],
+                    second_features: [],
+                    levels: []
+                },
+                form: {
+                    lanes: [],
+                    regions: [],
+                    teams: [],
+                    first_features: [],
+                    second_features: [],
+                    levels: []
+                },
+                compute_results: [],
+                gridData: [],
+                dialogTableVisible: false
             },
-            form: {
-                lanes: [],
-                regions: [],
-                teams: [],
-                first_features: [],
-                second_features: [],
-                levels: []
+            mounted() {
+                this.initTags()
             },
-            compute_results: []
-        },
-        mounted() {
-            this.initTags()
-        },
-        methods: {
-            initTags: function() {
-                var _this = this
+            methods: {
+                initTags: function () {
+                    var _this = this
 
-                $.get('/get_tags', resp => {
-                    console.log(resp)
-                    if (resp.code === 0) {
-                        _this.tags.lanes = resp.data[TAG_TYPE_LANE]
-                        _this.tags.regions = resp.data[TAG_TYPE_REGION]
-                        _this.tags.teams = resp.data[TAG_TYPE_TEAM]
-                        _this.tags.first_features = resp.data[TAG_TYPE_FIRST_FEATURE]
-                        _this.tags.second_features = resp.data[TAG_TYPE_SECOND_FEATURE]
-                        _this.tags.levels = resp.data[TAG_TYPE_LEVEL]
-                    }
-                })
-            },
+                    $.get('/get_tags', resp => {
+                        if (resp.code === 0) {
+                            _this.tags.lanes = resp.data[TAG_TYPE_LANE]
+                            _this.tags.regions = resp.data[TAG_TYPE_REGION]
+                            _this.tags.teams = resp.data[TAG_TYPE_TEAM]
+                            _this.tags.first_features = resp.data[TAG_TYPE_FIRST_FEATURE]
+                            _this.tags.second_features = resp.data[TAG_TYPE_SECOND_FEATURE]
+                            _this.tags.levels = resp.data[TAG_TYPE_LEVEL]
+                        }
+                    })
+                },
 
-            doSubmit: function (params) {
-                var _this = this
-                $.get('/compute', {
-                    lane_keys: this.form.lanes.join(','),
-                    region_keys: this.form.regions.join(','),
-                    team_keys: this.form.teams.join(','),
-                    first_feature_keys: this.form.first_features.join(','),
-                    second_feature_keys: this.form.second_features.join(','),
-                    level_keys: this.form.levels.join(','),
-                }, resp => {
-                    console.log(resp)
-                    if (resp.code === 0) {
-                        _this.compute_results = resp.data
-                    }
-                })
+                doSubmit(formName) {
+                    var _this = this
+                    this.dialogTableVisible = true
 
-                return false
+                    $.get('/compute', {
+                        lane_keys: this.form.lanes.join(','),
+                        region_keys: this.form.regions.join(','),
+                        team_keys: this.form.teams.join(','),
+                        first_feature_keys: this.form.first_features.join(','),
+                        second_feature_keys: this.form.second_features.join(','),
+                        level_keys: this.form.levels.join(','),
+                    }, resp => {
+                        if (resp.code === 0) {
+                            _this.compute_results = resp.data
+                            _this.gridData = res.data.map(item => {
+                            let tags=""
+                            let player = ""
+                            item.tags.map(item1 => {
+                                tags+= `${item1.value} `
+                            })
+                            item.players.map(item2 => {
+                                player+= `${item2.name}(${item2.level}) `
+                            })
+                            return {
+                                tags,
+                                player
+                            }
+                        })
+                        }
+                    })
+
+                    return false
+                }
             }
-        }
-    })
-</script>
+        })
+    </script>
 </body>
+
 </html>
